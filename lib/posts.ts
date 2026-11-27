@@ -1,4 +1,3 @@
-
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
@@ -14,10 +13,30 @@ export type Post = {
   title: string;
   description: string;
   date: string;
+  formattedDate: string;
   category: string;
   tags: string[];
   content: string;
+  readingTime: number;
 };
+
+function calculateReadingTime(content: string): number {
+  const words = content
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean).length;
+
+  return Math.max(1, Math.ceil(words / 200));
+}
+
+function formatDate(date: string): string {
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(date));
+}
 
 export function getAllPosts(): Post[] {
   const fileNames = fs.readdirSync(postsDirectory);
@@ -37,16 +56,22 @@ export function getAllPosts(): Post[] {
         "utf8"
       );
 
-      const { data, content } = matter(fileContents);
+      const { data, content } = matter(
+        fileContents.trimStart()
+      );
+
+      const date = String(data.date);
 
       return {
         slug,
         title: data.title,
         description: data.description,
-        date: String(data.date),
+        date,
+        formattedDate: formatDate(date),
         category: data.category,
         tags: data.tags ?? [],
         content,
+        readingTime: calculateReadingTime(content),
       };
     });
 

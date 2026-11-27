@@ -1,6 +1,6 @@
-
 import Link from "next/link";
 import { getAllPosts } from "../lib/posts";
+import PostMeta from "./PostMeta";
 
 export default function LatestArticles() {
   const posts = getAllPosts().slice(0, 3);
@@ -38,15 +38,7 @@ export default function LatestArticles() {
               href={`/blog/${post.slug}`}
               className="group flex flex-col rounded-2xl border border-border bg-surface p-7 transition hover:-translate-y-1 hover:shadow-md"
             >
-              <div className="flex flex-wrap items-center gap-3 text-xs text-muted">
-                <span className="rounded-full bg-primary/10 px-3 py-1 text-primary">
-                  {post.category}
-                </span>
-
-                <time dateTime={post.date}>
-                  {post.date}
-                </time>
-              </div>
+              <PostMeta post={post} />
 
               <h3 className="mt-6 font-serif text-2xl leading-tight text-primary group-hover:text-accent">
                 {post.title}

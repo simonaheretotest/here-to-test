@@ -129,3 +129,11 @@ html {
   margin: 1.5rem 0;
 }
 
+.blog-content h2,
+.blog-content h3 {
+  scroll-margin-top: 2rem;
+}
+
+.blog-content > :first-child {
+  margin-top: 0;
+}

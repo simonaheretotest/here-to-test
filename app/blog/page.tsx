@@ -1,6 +1,5 @@
-
-import Link from "next/link";
 import { getAllPosts } from "../../lib/posts";
+import BlogList from "../../components/BlogList";
 
 export const metadata = {
   title: "Blog",
@@ -29,43 +28,7 @@ export default function BlogPage() {
         </p>
       </div>
 
-      <div className="border-t border-border">
-        {posts.map((post) => (
-          <article
-            key={post.slug}
-            className="border-b border-border py-8"
-          >
-            <div className="flex flex-wrap items-center gap-3 text-xs text-muted">
-              <span className="rounded-full bg-primary/10 px-3 py-1 font-medium text-primary">
-                {post.category}
-              </span>
-
-              <time dateTime={post.date}>
-                {post.date}
-              </time>
-            </div>
-
-            <Link href={`/blog/${post.slug}`}>
-              <h2 className="mt-4 font-serif text-3xl text-primary transition hover:text-accent">
-                {post.title}
-              </h2>
-            </Link>
-
-            <p className="mt-3 max-w-2xl leading-relaxed text-muted">
-              {post.description}
-            </p>
-
-            <div className="mt-5">
-              <Link
-                href={`/blog/${post.slug}`}
-                className="text-sm font-medium text-primary hover:underline"
-              >
-                Read article →
-              </Link>
-            </div>
-          </article>
-        ))}
-      </div>
+      <BlogList posts={posts} />
     </main>
   );
 }
